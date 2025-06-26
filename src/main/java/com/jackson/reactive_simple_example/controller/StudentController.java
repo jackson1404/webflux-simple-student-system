@@ -13,8 +13,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * StudentController Class.
@@ -25,6 +27,7 @@ import reactor.core.publisher.Flux;
  */
 @RestController
 @RequestMapping("/api/v1/student")
+@SuppressWarnings("unused")
 public class StudentController {
 
     private final StudentService studentService;
@@ -40,4 +43,14 @@ public class StudentController {
 
         return new ResponseEntity<>(students, HttpStatus.OK);
     }
+
+    @GetMapping("/getStudentById")
+    public ResponseEntity<Mono<StudentEntity>> getStudentById(@RequestParam("studentId") Long studentId){
+
+        Mono<StudentEntity> student = studentService.findStudentById(studentId);
+
+        return new ResponseEntity<>(student, HttpStatus.OK);
+
+    }
+
 }

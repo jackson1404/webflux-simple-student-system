@@ -11,6 +11,7 @@ import com.jackson.reactive_simple_example.repository.StudentRepository;
 import com.jackson.reactive_simple_example.service.StudentService;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * StudentServiceImpl Class.
@@ -31,5 +32,10 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Flux<StudentEntity> findAllStudent() {
         return studentRepository.findAll();
+    }
+
+    @Override
+    public Mono<StudentEntity> findStudentById(Long studentId) {
+        return studentRepository.findById(studentId);
     }
 }

@@ -9,6 +9,7 @@ package com.jackson.reactive_simple_example.service;
 import com.jackson.reactive_simple_example.model.StudentEntity;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 /**
  * StudentService Class.
@@ -23,4 +24,5 @@ public interface StudentService {
     Flux<StudentEntity> findAllStudent();
 
 
+    Mono<StudentEntity> findStudentById(Long studentId);
 }
