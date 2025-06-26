@@ -6,15 +6,13 @@
  * *************************************************************/
 package com.jackson.reactive_simple_example.controller;
 
+import com.jackson.reactive_simple_example.dto.StudentRequestDto;
 import com.jackson.reactive_simple_example.model.StudentEntity;
 import com.jackson.reactive_simple_example.service.StudentService;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -52,5 +50,11 @@ public class StudentController {
         return new ResponseEntity<>(student, HttpStatus.OK);
 
     }
+    @PostMapping("/createStudent")
+    public Mono<ResponseEntity<Void>> createStudent(@RequestBody StudentRequestDto studentRequestDto) {
+        return studentService.createStudent(studentRequestDto)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
+    }
+
 
 }

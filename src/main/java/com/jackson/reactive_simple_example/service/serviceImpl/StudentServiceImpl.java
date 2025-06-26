@@ -6,6 +6,7 @@
  * *************************************************************/
 package com.jackson.reactive_simple_example.service.serviceImpl;
 
+import com.jackson.reactive_simple_example.dto.StudentRequestDto;
 import com.jackson.reactive_simple_example.model.StudentEntity;
 import com.jackson.reactive_simple_example.repository.StudentRepository;
 import com.jackson.reactive_simple_example.service.StudentService;
@@ -38,4 +39,18 @@ public class StudentServiceImpl implements StudentService {
     public Mono<StudentEntity> findStudentById(Long studentId) {
         return studentRepository.findById(studentId);
     }
+
+    @Override
+    public Mono<Void> createStudent(StudentRequestDto studentRequestDto) {
+        StudentEntity studentEntity = new StudentEntity();
+        studentEntity.setStudentName(studentRequestDto.getStudentName());
+        studentEntity.setStudentAddress(studentRequestDto.getStudentAddress());
+        studentEntity.setStudentAge(studentRequestDto.getStudentAge());
+        studentEntity.setStudentPhoneNumber(studentRequestDto.getStudentPhoneNumber());
+
+        return studentRepository.save(studentEntity)
+                .doOnNext(saved -> System.out.println("Saved student: " + saved.getStudentName()))
+                .then(); // convert Mono<StudentEntity> to Mono<Void>
+    }
+
 }
