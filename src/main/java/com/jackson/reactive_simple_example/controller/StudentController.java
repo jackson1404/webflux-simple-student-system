@@ -65,6 +65,7 @@ public class StudentController {
 
     }
 
+    //added delete service
     @DeleteMapping("/deleteStudent")
     public Mono<ResponseEntity<String>> deleteStudent(@RequestParam("studentId") Long studentId){
 
