@@ -28,4 +28,6 @@ public interface StudentService {
     Mono<StudentEntity> findStudentById(Long studentId);
 
     Mono<Void> createStudent(StudentRequestDto studentRequestDto);
+
+    Mono<Void> updateStudent(Long studentId, StudentRequestDto studentRequestDto);
 }

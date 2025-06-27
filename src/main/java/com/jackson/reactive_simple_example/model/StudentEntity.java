@@ -25,7 +25,6 @@ import java.time.LocalDateTime;
 public class StudentEntity {
 
     @Id
-    @Generated
     @Column("student_id")
     private Long studentId;
 

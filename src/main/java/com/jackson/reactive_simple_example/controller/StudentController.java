@@ -51,10 +51,21 @@ public class StudentController {
 
     }
     @PostMapping("/createStudent")
-    public Mono<ResponseEntity<Void>> createStudent(@RequestBody StudentRequestDto studentRequestDto) {
+    public Mono<ResponseEntity<String>> createStudent(@RequestBody StudentRequestDto studentRequestDto) {
         return studentService.createStudent(studentRequestDto)
-                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED).build()));
+                .then(Mono.just(ResponseEntity.status(HttpStatus.CREATED)
+                                        .body("Student Created Successfully")));
     }
 
+    @PutMapping("/updateStudent")
+    public Mono<ResponseEntity<String>> updateStudent(@RequestParam("studentId") Long studentId , @RequestBody StudentRequestDto studentRequestDto){
 
+        return studentService.updateStudent(studentId, studentRequestDto)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.OK)
+                                        .body("Student Updated Successfully")));
+
+    }
+
+    @DeleteMapping("/deleteStudent")
+    
 }

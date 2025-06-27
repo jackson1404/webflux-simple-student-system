@@ -43,14 +43,27 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public Mono<Void> createStudent(StudentRequestDto studentRequestDto) {
         StudentEntity studentEntity = new StudentEntity();
+        return saveStudent(studentEntity, studentRequestDto)
+                .doOnNext(saved -> System.out.println("Created Student: " + studentEntity.getStudentName()))
+                .then();
+    }
+
+    @Override
+    public Mono<Void> updateStudent(Long studentId, StudentRequestDto studentRequestDto) {
+
+        return findStudentById(studentId)
+                .flatMap(existingStudent -> saveStudent(existingStudent, studentRequestDto))
+                        .doOnNext(updated -> System.out.println("Updated student: " + updated.getStudentName()))
+                                .then();
+    }
+
+    private Mono<StudentEntity> saveStudent(StudentEntity studentEntity, StudentRequestDto studentRequestDto){
         studentEntity.setStudentName(studentRequestDto.getStudentName());
         studentEntity.setStudentAddress(studentRequestDto.getStudentAddress());
         studentEntity.setStudentAge(studentRequestDto.getStudentAge());
         studentEntity.setStudentPhoneNumber(studentRequestDto.getStudentPhoneNumber());
 
-        return studentRepository.save(studentEntity)
-                .doOnNext(saved -> System.out.println("Saved student: " + saved.getStudentName()))
-                .then(); // convert Mono<StudentEntity> to Mono<Void>
+        return studentRepository.save(studentEntity);
     }
 
 }
