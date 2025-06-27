@@ -9,7 +9,6 @@ package com.jackson.reactive_simple_example.controller;
 import com.jackson.reactive_simple_example.dto.StudentRequestDto;
 import com.jackson.reactive_simple_example.model.StudentEntity;
 import com.jackson.reactive_simple_example.service.StudentService;
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -67,5 +66,12 @@ public class StudentController {
     }
 
     @DeleteMapping("/deleteStudent")
-    
+    public Mono<ResponseEntity<String>> deleteStudent(@RequestParam("studentId") Long studentId){
+
+        return studentService.deleteStudent(studentId)
+                .then(Mono.just(ResponseEntity.status(HttpStatus.OK)
+                                        .body("Student Deleted successsfully")));
+    }
+
+
 }

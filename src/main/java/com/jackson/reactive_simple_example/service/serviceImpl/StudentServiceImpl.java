@@ -57,6 +57,13 @@ public class StudentServiceImpl implements StudentService {
                                 .then();
     }
 
+    @Override
+    public Mono<Void> deleteStudent(Long studentId) {
+        return studentRepository.deleteById(studentId)
+                .doOnNext(deleted -> System.out.println("Deleted Student Id: " + studentId))
+                .then();
+    }
+
     private Mono<StudentEntity> saveStudent(StudentEntity studentEntity, StudentRequestDto studentRequestDto){
         studentEntity.setStudentName(studentRequestDto.getStudentName());
         studentEntity.setStudentAddress(studentRequestDto.getStudentAddress());
