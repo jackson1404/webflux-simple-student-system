@@ -64,6 +64,11 @@ public class StudentServiceImpl implements StudentService {
                 .then();
     }
 
+    @Override
+    public Flux<StudentEntity> searchByStudentName(String studentName) {
+        return studentRepository.findStudentsByName(studentName);
+    }
+
     private Mono<StudentEntity> saveStudent(StudentEntity studentEntity, StudentRequestDto studentRequestDto){
         studentEntity.setStudentName(studentRequestDto.getStudentName());
         studentEntity.setStudentAddress(studentRequestDto.getStudentAddress());

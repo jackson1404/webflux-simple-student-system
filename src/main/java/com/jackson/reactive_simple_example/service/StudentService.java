@@ -8,6 +8,7 @@ package com.jackson.reactive_simple_example.service;
 
 import com.jackson.reactive_simple_example.dto.StudentRequestDto;
 import com.jackson.reactive_simple_example.model.StudentEntity;
+import org.springframework.http.ResponseEntity;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -31,4 +32,6 @@ public interface StudentService {
     Mono<Void> updateStudent(Long studentId, StudentRequestDto studentRequestDto);
 
     Mono<Void> deleteStudent(Long studentId);
+
+    Flux<StudentEntity> searchByStudentName(String studentName);
 }

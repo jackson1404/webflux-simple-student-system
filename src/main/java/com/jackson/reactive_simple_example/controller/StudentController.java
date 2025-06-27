@@ -33,22 +33,27 @@ public class StudentController {
         this.studentService = studentService;
     }
 
+//    @GetMapping("/getAllStudents")
+//    public Flux<ResponseEntity<StudentEntity>> getAllStudent(){
+//
+//        return studentService.findAllStudent()
+//                .map(ResponseEntity::ok);
+//    }
+
     @GetMapping("/getAllStudents")
-    public ResponseEntity<Flux<StudentEntity>> getAllStudent(){
-        System.out.println("reach ");
-        Flux<StudentEntity> students = studentService.findAllStudent();
+    public Mono<ResponseEntity<Flux<StudentEntity>>> getAllStudent(){
 
-        return new ResponseEntity<>(students, HttpStatus.OK);
+        Flux<StudentEntity> student = studentService.findAllStudent();
+        return Mono.just(ResponseEntity.ok(student));
+
     }
-
+    
     @GetMapping("/getStudentById")
-    public ResponseEntity<Mono<StudentEntity>> getStudentById(@RequestParam("studentId") Long studentId){
-
-        Mono<StudentEntity> student = studentService.findStudentById(studentId);
-
-        return new ResponseEntity<>(student, HttpStatus.OK);
-
+    public Mono<ResponseEntity<StudentEntity>> getStudentById(@RequestParam("studentId") Long studentId){
+        return studentService.findStudentById(studentId)
+                .flatMap(student -> Mono.just(ResponseEntity.ok(student)));
     }
+
     @PostMapping("/createStudent")
     public Mono<ResponseEntity<String>> createStudent(@RequestBody StudentRequestDto studentRequestDto) {
         return studentService.createStudent(studentRequestDto)
@@ -71,8 +76,15 @@ public class StudentController {
 
         return studentService.deleteStudent(studentId)
                 .then(Mono.just(ResponseEntity.status(HttpStatus.OK)
-                                        .body("Student Deleted successsfully")));
+                                        .body("Student Deleted successfully")));
     }
+//
+//    @GetMapping("/searchStudentName")
+//    public Flux<ResponseEntity<String>> searchStudentByName(@RequestParam("studentName") String studentName) {
+//
+////        return studentService.searchByStudentName(studentName);
+//
+//    }
 
 
 }
